@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam's Calculator</title>
+    <style>
+        /* Styling to make it look good on Android */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        h2 { color: #333; margin-top: 0; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        button { padding: 12px; border: none; border-radius: 8px; background-color: #1a73e8; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        button:active { background-color: #0d47a1; transform: scale(0.98); }
+        .result-area { margin-top: 20px; padding: 15px; background: #e8f0fe; border-radius: 8px; color: #1a73e8; font-size: 18px; font-weight: bold; min-height: 24px; word-wrap: break-word; }
+        .footer { margin-top: 15px; font-size: 12px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>SAM'S CALCULATOR</h2>
+    
+    <input type="number" id="num1" placeholder="Enter first number (or angle)">
+    <input type="number" id="num2" placeholder="Enter second number (for +, -, *, /)">
+
+    <div class="grid">
+        <button onclick="calculate(1)">1. Add (+)</button>
+        <button onclick="calculate(2)">2. Subtract (-)</button>
+        <button onclick="calculate(3)">3. Multiply (*)</button>
+        <button onclick="calculate(4)">4. Divide (/)</button>
+        <button onclick="calculate(5)">5. Square Root (√)</button>
+        <button onclick="calculate(6)">6. Log (Base 10)</button>
+        <button onclick="calculate(7)">7. Sin (deg)</button>
+        <button onclick="calculate(8)">8. Cos (deg)</button>
+        <button onclick="calculate(9)">9. Tan (deg)</button>
+        <button onclick="calculate(10)">10. Factorial (!)</button>
+    </div>
+
+    <div class="result-area" id="result">Result: ---</div>
+    
+    <div class="footer">
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsam-calc-unique-id" alt="Hits">
+    </div>
+</div>
+
+<script>
+    function calculate(choice) {
+        // Get values from inputs
+        const n1 = parseFloat(document.getElementById('num1').value);
+        const n2 = parseFloat(document.getElementById('num2').value);
+        const display = document.getElementById('result');
+        let res = 0;
+
+        // Validation for single-number operations
+        if (isNaN(n1)) {
+            display.innerText = "Error: Enter Number 1";
+            return;
+        }
+
+        switch(choice) {
+            case 1: res = n1 + n2; break;
+            case 2: res = n1 - n2; break;
+            case 3: res = n1 * n2; break;
+            case 4: 
+                res = (n2 !== 0) ? n1 / n2 : "Error: Div by 0"; 
+                break;
+            case 5: 
+                res = (n1 >= 0) ? Math.sqrt(n1) : "Error: Negative"; 
+                break;
+            case 6: 
+                res = (n1 > 0) ? Math.log10(n1) : "Error: Log <= 0"; 
+                break;
+            case 7: res = Math.sin(n1 * Math.PI / 180); break;
+            case 8: res = Math.cos(n1 * Math.PI / 180); break;
+            case 9: res = Math.tan(n1 * Math.PI / 180); break;
+            case 10: 
+                if (n1 < 0) res = "Error: Negative";
+                else {
+                    let fact = 1;
+                    for(let i = 1; i <= Math.floor(n1); i++) fact *= i;
+                    res = fact;
+                }
+                break;
+            default: res = "Invalid";
+        }
+
+        // Format and display the result
+        if (typeof res === 'number') {
+            display.innerText = "Result: " + (Number.isInteger(res) ? res : res.toFixed(4));
+        } else {
+            display.innerText = res;
+        }
+    }
+</script>
+
+</body>
+</html>
